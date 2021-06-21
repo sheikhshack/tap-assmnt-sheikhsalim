@@ -4,13 +4,8 @@ services:
   shortener:
     image: sheikhshack/tap_assmt:latest
     container_name: tap-shortener
-    environment:
-      - PORT=80
-      - PG_IP=postgres-db
-      - PG_USR=postgres
-      - PG_PASS=postgres
-      - PG_DB=test
-      - HOSTNAME=localhost
+    env_file:
+      - aws_short.env
     ports:
       - 80:80
     depends_on:
@@ -19,6 +14,8 @@ services:
   postgres-db:
     image: 'postgres:10.7'
     container_name: tap-postgres
+    env_file:
+      - aws_db.env
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

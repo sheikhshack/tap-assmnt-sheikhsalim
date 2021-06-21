@@ -10,7 +10,7 @@
     "test": "cross-env NODE_ENV=test jest --verbose",
     "dev": "nodemon index.js",
     "build:ui": "rm -rf build && cd ../front-end/ && npm install && npm run build && cp -r build ../back-end",
-    "start": "node index.js"
+    "start": "sleep 5 && node index.js"
   },
   "author": "",
   "license": "ISC",
