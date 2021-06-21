@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   shortener:
-    image: sheikhshack/tap_assignment:latest
+    image: sheikhshack/tap-assmt:latest
     container_name: tap-shortener
     environment:
       - PORT=5000
@@ -27,6 +27,7 @@ services:
       - db-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
+
 
 volumes:
   db-data:

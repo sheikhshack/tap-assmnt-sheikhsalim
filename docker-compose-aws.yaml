@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   shortener:
-    image: sheikhshack/tap_assignment:latest
+    image: sheikhshack/tap_assmt:latest
     container_name: tap-shortener
     environment:
       - PORT=80

@@ -20,7 +20,9 @@ config.SQL.authenticate()
 
     })
     .catch((err) => {
-        logger.error('Problems establishing connection to SQL Server: ', err.message )
+        logger.error('Problems establishing connection to SQL Server, Killing app: ', err.message )
+        process.exit(1)
+
 
     })
 
