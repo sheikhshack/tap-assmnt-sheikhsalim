@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  shortener:
+    image: sheikhshack/tap_assignment:latest
+    container_name: tap-shortener
+    environment:
+      - PORT=80
+      - PG_IP=postgres-db
+      - PG_USR=postgres
+      - PG_PASS=postgres
+      - PG_DB=test
+      - HOSTNAME=localhost
+    ports:
+      - 80:80
+    depends_on:
+      - postgres-db
+
+  postgres-db:
+    image: 'postgres:10.7'
+    container_name: tap-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  watchtower:
+    image: containrrr/watchtower
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=60
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    container_name: watchtower
+volumes:
+  db-data:

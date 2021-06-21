@@ -1,0 +1,50 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.1
+
+jobs:
+  test_changes:
+    working_directory: ~/repo/back-end
+    docker:
+      - image: cimg/node:14.2
+    steps:
+      - checkout:
+          path: ~/repo
+      - node/install-packages
+      - run:
+          name: Build the front-end
+          command: npm run build:ui
+
+      - run:
+          name: Run backend test
+          command: npm test
+
+
+  build_publish_image:
+    working_directory: ~/repo/back-end
+    environment:
+      IMAGE_NAME: sheikhshack/tap-assmt
+    docker:
+      - image: cimg/node:14.2
+    steps:
+      - setup_remote_docker
+      - checkout:
+          path: ~/repo
+      - node/install-packages
+      - run:
+          name: Build the front-end
+          command: npm run build:ui
+      - run:
+          name: Build the docker image
+          command: docker build . -t $IMAGE_NAME:latest
+      - run:
+          name: Publish the docker image
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:latest
+
+workflows:
+  test_and_deploy:
+    jobs:
+      - test_changes
+      - build_publish_image
